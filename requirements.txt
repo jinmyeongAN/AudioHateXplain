@@ -24,7 +24,7 @@ cffi==1.16.0
 cfgv==3.4.0
 charset-normalizer==3.3.2
 chroma-hnswlib==0.7.3
-chromadb==0.4.17
+chromadb==0.5.18
 click==8.1.7
 cliff==4.6.0
 cloudpickle==3.0.0
