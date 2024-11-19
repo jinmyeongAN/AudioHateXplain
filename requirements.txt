@@ -196,7 +196,7 @@ pydeck==0.8.1b0
 pyflakes==2.4.0
 Pygments==2.16.1
 pynvml==11.5.0
-pypdf==3.17.1
+pypdf==5.1.0
 pypdfium2==4.24.0
 pyperclip==1.8.2
 PyPika==0.48.9
