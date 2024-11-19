@@ -1,0 +1,5 @@
+_target_: data.DataFactory.DataFactory.get_dataset
+path: nyu-mll/glue
+task_name: ${args.data_args.task_name}
+cache_dir: ${args.model_args.cache_dir}
+token: ${args.model_args.token}

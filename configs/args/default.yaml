@@ -1,0 +1,40 @@
+data_args:
+  _target_: src.data.DataTrainingArguments.DataTrainingArguments
+  task_name: 
+  dataset_name: 
+  dataset_config_name: 
+  max_seq_length: 128
+  overwrite_cache: False
+  pad_to_max_length: True
+  max_train_samples: 
+  max_eval_samples: 
+  max_predict_samples: 
+  train_file: 
+  validation_file: 
+  test_file: 
+  
+
+model_args:
+  _target_: src.models.ModelArguments.ModelArguments
+  model_name_or_path: ${paths.model_dir}
+  config_name: 
+  tokenizer_name: 
+  cache_dir: 
+  use_fast_tokenizer: True
+  model_revision: main
+  token: 
+  use_auth_token: 
+  trust_remote_code: False
+  ignore_mismatched_sizes: False
+
+
+training_args:
+  _target_: transformers.TrainingArguments
+  output_dir: ${paths.model_dir}
+  do_train: False
+  do_eval: False
+  do_predict: False
+  per_device_train_batch_size: 8
+  per_device_eval_batch_size: 8
+  learning_rate: 5e-05
+  weight_decay: 0
