@@ -156,7 +156,7 @@ opentelemetry-sdk==1.21.0
 opentelemetry-semantic-conventions==0.42b0
 optuna==2.10.1
 orjson==3.9.10
-outlines==0.0.36
+outlines==0.1.7
 overrides==7.4.0
 packaging==24.0
 pandas==2.1.3
