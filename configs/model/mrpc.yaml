@@ -1,9 +1,0 @@
-_target_: transformers.AutoModelForSequenceClassification.from_pretrained
-
-pretrained_model_name_or_path: "google-bert/bert-base-cased"
-config: config
-cache_dir: ${args.model_args.cache_dir}
-revision: ${args.model_args.model_revision}
-token: ${args.model_args.token}
-trust_remote_code: ${args.model_args.trust_remote_code}
-ignore_mismatched_sizes: ${args.model_args.ignore_mismatched_sizes}

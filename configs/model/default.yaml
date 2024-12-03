@@ -1,2 +1,0 @@
-_target_: src.models.ModelArguments.ModelArguments
-model_name_or_path: ${paths.data_dir}

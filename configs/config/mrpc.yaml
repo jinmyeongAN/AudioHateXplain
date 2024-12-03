@@ -1,7 +1,0 @@
-_target_: transformers.AutoConfig.from_pretrained
-pretrained_model_name_or_path: ${args.model_args.model_name_or_path}
-finetuning_task: ${args.data_args.task_name}
-cache_dir: ${args.model_args.cache_dir}
-revision: ${args.model_args.model_revision}
-token: ${args.model_args.token}
-trust_remote_code: ${args.model_args.trust_remote_code}

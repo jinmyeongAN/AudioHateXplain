@@ -1,0 +1,125 @@
+task_name: train
+tags:
+- dev
+ckpt_path: null
+args:
+  data_args:
+    _target_: src.data.DataTrainingArguments.DataTrainingArguments
+    task_name: PANC_segment_train
+    dataset_name: PANC
+    dataset_config_name: 
+    max_seq_length: 512
+    overwrite_cache: False
+    pad_to_max_length:
+    max_train_samples: 
+    max_eval_samples: 
+    max_predict_samples: 
+    train_file: 
+    validation_file: 
+    test_file: 
+
+  model_args:
+    _target_: src.models.ModelArguments.ModelArguments
+    model_name_or_path: "BertForSequenceClassification" # 📌 pretrained model name
+    ckpt_path:  "bert-base-uncased" 
+    trainer_type: "segBERTTrainer_stage_ann" # "segBERTTrainer" # "segBERTTrainer_chat_ann" #   #  # 📌 trainer type (prediction 다를 경우)
+    cache_dir:
+    use_fast_tokenizer: True
+    model_revision: main
+    token: 
+    use_auth_token: 
+
+  training_args:
+    _target_: transformers.TrainingArguments
+    output_dir: ${paths.save_dir}${args.data_args.task_name}_${args.model_args.ckpt_path}
+    # ${paths.save_dir}PANC_chat+100negSeg_4strategy_ann # 📌 saved model path
+    do_train: true # true📌 train 여부
+    do_eval: true # true📌 eval 여부
+    do_predict:   # true  📌 test 여부
+    per_device_train_batch_size: 16  # 📌 batch size
+    per_device_eval_batch_size: 16 # 📌 batch size
+    # learning_rate: 5e-05
+    # weight_decay: 0
+    num_train_epochs: 10 # 📌 epoch
+    overwrite_output_dir: #true
+    report_to: wandb
+    load_best_model_at_end: true
+    evaluation_strategy: epoch
+    save_strategy: epoch
+    resume_from_checkpoint: 
+
+model:
+  _target_: transformers.BertForSequenceClassification.from_pretrained
+  pretrained_model_name_or_path: ${args.model_args.model_name_or_path}
+  return_dict: true
+  num_labels: 2
+paths:
+  root_dir: ${oc.env:PROJECT_ROOT}
+  data_dir: /mnt/hdd4/jinmyeong/ERD_data/Data/
+  log_dir: /mnt/hdd4/jinmyeong/eSPD_PANC_segment/logs/
+  model_dir: /mnt/hdd4/jinmyeong/phishing/model/
+  save_dir: /mnt/hdd4/jinmyeong/
+  output_dir: ${hydra:runtime.output_dir}
+  work_dir: ${hydra:runtime.cwd}
+config:
+  _target_: transformers.AutoConfig.from_pretrained
+  pretrained_model_name_or_path: ${args.model_args.model_name_or_path}
+tokenizer:
+  _target_: transformers.AutoTokenizer.from_pretrained
+  pretrained_model_name_or_path: ${args.model_args.ckpt_path}
+data:
+  _target_: src.data.PANC_segment_datamodule.PANCDataModule
+  data_dir: ${paths.data_dir}
+  dataset_name: ${args.data_args.dataset_name}
+  cache_dir: ${args.model_args.cache_dir}
+  token: ${args.model_args.token}
+
+# # @package _global_
+
+# # specify here default configuration
+# # order of defaults determines the order in which configs override each other
+# defaults:
+#   - _self_
+#   - args: panc_segment_segBERT_train #panc_segment_chatBERT #  panc_segment # phishing_utt_ann #
+#   - model: BertForSequenceClassification
+#   # - trainer: default
+#   - paths: default
+#   # - config: default
+#   - tokenizer: BertForSequenceClassification 
+#   - data: panc_segment #PANC_chat+negSeg_train_utt-ann # PANC_chat_train_stage_ann #  PANC_chat_train_speaker_allStage_ann # PANC_chat_train_speaker_stage_ann # PANC_chat_train_stage_ann # panc_segment_train_utt-ann # panc_chat # panc_chat #
+  
+#   # experiment configs allow for version control of specific hyperparameters
+#   # e.g. best hyperparameters for given model and datamodule
+#   - experiment: null
+
+#   # config for hyperparameter optimization
+#   - hparams_search: null
+
+#   # optional local config for machine/user specific settings
+#   # it's optional since it doesn't need to exist and is excluded from version control
+#   - optional local: default
+
+#   # debugging config (enable through command line, e.g. `python train.py debug=default)
+#   - debug: null
+
+# # task name, determines output directory path
+# task_name: "train"
+
+# # tags to help you identify your experiments
+# # you can overwrite this in experiment configs
+# # overwrite from command line with `python train.py tags="[first_tag, second_tag]"`
+# tags: ["dev"]
+
+# # set False to skip model training
+# train: True
+
+# # evaluate on test set, using best model weights achieved during training
+# # lightning chooses best weights based on the metric specified in checkpoint callback
+# test: True
+
+# # simply provide checkpoint path to resume training
+# ckpt_path: bert-base-uncased
+# # "/mnt/hdd4/jinmyeong/eSPD_PANC_segment/checkpoint-280"
+
+# # seed for random number generators in pytorch, numpy and python.random
+# seed: null
