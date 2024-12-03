@@ -237,7 +237,7 @@ sse-starlette==1.6.5
 stack-data==0.6.2
 starlette==0.27.0
 stevedore==5.2.0
-streamlit==1.28.2
+streamlit==1.40.2
 sympy==1.12
 tenacity==8.2.3
 termcolor==2.4.0
